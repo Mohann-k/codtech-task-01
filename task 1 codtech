@@ -1,0 +1,112 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Inventory structure
+struct Inventory {
+    int hasSword;
+    int hasShield;
+    int hasPotion;
+};
+
+// Function declarations
+void startAdventure(struct Inventory *inv);
+void encounterForest(struct Inventory *inv);
+void encounterCave(struct Inventory *inv);
+void encounterDragon(struct Inventory *inv);
+
+int main() {
+    struct Inventory playerInventory = {0, 0, 0};
+    printf("Welcome to the Adventure Game!\n\n");
+    startAdventure(&playerInventory);
+    return 0;
+}
+
+void startAdventure(struct Inventory *inv) {
+    int choice;
+    printf("You find yourself at a crossroads.\n");
+    printf("1. Go to the forest\n");
+    printf("2. Enter the cave\n");
+    printf("Choose an option: ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        encounterForest(inv);
+    } else if (choice == 2) {
+        encounterCave(inv);
+    } else {
+        printf("Invalid choice. Try again.\n");
+        startAdventure(inv);
+    }
+}
+
+void encounterForest(struct Inventory *inv) {
+    int choice;
+    printf("\nYou walk into the forest and find a sword on the ground.\n");
+    printf("1. Pick up the sword\n");
+    printf("2. Leave it and continue walking\n");
+    printf("Choose an option: ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        inv->hasSword = 1;
+        printf("You picked up the sword!\n");
+    } else {
+        printf("You decided to leave the sword.\n");
+    }
+
+    printf("\nAfter walking further, you find yourself back at the crossroads.\n");
+    startAdventure(inv);
+}
+
+void encounterCave(struct Inventory *inv) {
+    int choice;
+    printf("\nYou enter the cave and find a shield on a rock.\n");
+    printf("1. Pick up the shield\n");
+    printf("2. Leave it and continue exploring\n");
+    printf("Choose an option: ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        inv->hasShield = 1;
+        printf("You picked up the shield!\n");
+    } else {
+        printf("You decided to leave the shield.\n");
+    }
+
+    printf("\nDeeper in the cave, you encounter a fierce dragon!\n");
+    encounterDragon(inv);
+}
+
+void encounterDragon(struct Inventory *inv) {
+    int choice;
+    printf("\nThe dragon roars and prepares to attack!\n");
+    
+    if (inv->hasSword && inv->hasShield) {
+        printf("1. Fight the dragon with your sword and shield\n");
+    } else if (inv->hasSword) {
+        printf("1. Fight the dragon with your sword\n");
+    } else {
+        printf("1. Try to fight the dragon with your bare hands\n");
+    }
+    
+    printf("2. Run away\n");
+    printf("Choose an option: ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        if (inv->hasSword && inv->hasShield) {
+            printf("You bravely fight the dragon with your sword and shield and emerge victorious!\n");
+        } else if (inv->hasSword) {
+            printf("You fight the dragon with your sword, but without a shield, you get hurt.\n");
+            printf("But you still manage to defeat the dragon. Victory!\n");
+        } else {
+            printf("You try to fight the dragon with your bare hands, but it’s too strong.\n");
+            printf("You barely escape with your life.\n");
+        }
+    } else {
+        printf("You decide to run away, and the dragon lets out a victorious roar as you escape.\n");
+    }
+
+    printf("\n--- End of Adventure ---\n");
+}
